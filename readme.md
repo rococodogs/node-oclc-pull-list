@@ -2,15 +2,24 @@
 
 Module wrapper to access [OCLC's WMS Pull List Resource API](http://www.oclc.org/developer/develop/web-services/wms-circulation-api/pull-list-resource.en.html). 
 
-## `PullList(wskey, branchID)` or `var pl = new PullList(wskey, branchID)`
+## `PullList(wskey, branchID)` or
+## `var pl = new PullList(wskey, branchID)`
 
 Instantiates a new PullList. `branchID` is a number.
+
+## `pl.itemsPerPage(num)`
+
+Set the number of items per page returned. Defaults to `10`.
+
+## `pl.startIndex(num)`
+
+Set what number to start at. Defaults to `1`.
 
 ## `pl.fetch(callback(err, response, items))`
 
 Makes the connection to OCLC and returns the full response from OCLC:
 
-```json
+```javascript
 {
   "entry": [
     {
@@ -93,7 +102,7 @@ The third field of the callback, `items`, is the array of items in case you didn
 
 If a failure, `err` is an object:
 
-```json
+```javascript
 {
   "code": {
       "value": number, // HTTP status code
