@@ -1,24 +1,38 @@
+module.exports = PullList;
+
 var WSKey = require('oclc-wskey')
   , request = require('request')
   ;
 
-module.exports = function PullList(wskey, branch, callback) {
-    if ( arguments.length < 4 ) {
-        
-    }
+function PullList(wskey, branch) {
+    if ( !(this instanceof PullList) ) return new PullList(wskey, branch);
 
-    // wskey can be a WSKey instance or an object with `key` and `secret` fields
     if ( !(wskey instanceof WSKey) ) {
         if ( (!wskey.key || !wskey.wskey) || !wskey.secret ) {
-            throw Error('WSKey field must be WSKey or object with `key` and `secret` fields ');
+            throw Error('WSKey field must be either a WSKey or object with `key` and `secret` fields ');
         } else {
-            wskey = new WSKey(wskey.key, wskey.secret);
+            this.wskey = new WSKey(wskey.key, wskey.secret);
         }
+    } else {
+        this.wskey = wskey;
     }
 
-    var url = 'https://circ.sd00.worldcat.org/pulllist/' + branch
+    this.branch = branch;
+    
+    // oclc defaults
+    this._startIndex = 1;
+    this._itemsPerPage = 10;
+
+    return this;
+}
+
+PullList.prototype.fetch = function(callback) {
+    var url = 'https://circ.sd00.worldcat.org/pulllist/' 
+            + this.branch
+            + '?startIndex=' + this._startIndex
+            + '&itemsPerPage=' + this._itemsPerPage
       , head = {
-            'Authorization': wskey.HMACSignature('GET', url),
+            'Authorization': this.wskey.HMACSignature('GET', url),
             'Accept': 'application/json'
         }
       ;
@@ -39,9 +53,26 @@ module.exports = function PullList(wskey, branch, callback) {
                 null
             );
         } else if ( resp.statusCode === 200 ) {
-            callback && callback(null, JSON.parse(body).entry);
+            //callback && callback(null, JSON.parse(body).entry);
+            callback && callback(null, JSON.parse(body));
         } else {
             callback && callback(null, JSON.parse(body));
         }
     });
+}
+
+PullList.prototype.itemsPerPage = function(itm) {
+    if ( !itm && typeof itm !== 'number') return this._itemsPerPage;
+
+    this._itemsPerPage = +itm;
+
+    return this;
+}
+
+PullList.prototype.startIndex = function(idx) {
+    if ( !idx && typeof idx !== 'number' ) return this._startIndex;
+
+    this._startIndex = +idx;
+
+    return this;
 }
