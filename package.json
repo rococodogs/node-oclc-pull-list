@@ -1,0 +1,22 @@
+{
+  "name": "oclc-pull-list",
+  "version": "1.0.0",
+  "description": "Retrieve a pull list from a WMS library",
+  "main": "index.js",
+  "dependencies": {
+    "oclc-wskey": "^1.0.0",
+    "request": "^2.55.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "oclc",
+    "wms",
+    "pull",
+    "list"
+  ],
+  "author": "Adam Malantonio <adam.malantonio@gmail.com>",
+  "license": "MIT"
+}
