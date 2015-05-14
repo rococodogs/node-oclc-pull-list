@@ -53,8 +53,7 @@ PullList.prototype.fetch = function(callback) {
                 null
             );
         } else if ( resp.statusCode === 200 ) {
-            //callback && callback(null, JSON.parse(body).entry);
-            callback && callback(null, JSON.parse(body));
+            callback && callback(null, JSON.parse(body).entry);
         } else {
             callback && callback(null, JSON.parse(body));
         }
