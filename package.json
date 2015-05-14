@@ -1,6 +1,6 @@
 {
   "name": "oclc-pull-list",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Retrieve a pull list from a WMS library",
   "main": "index.js",
   "dependencies": {
