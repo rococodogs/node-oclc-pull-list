@@ -61,18 +61,14 @@ PullList.prototype.fetch = function(callback) {
     });
 }
 
-PullList.prototype.itemsPerPage = function(itm) {
-    if ( !itm && typeof itm !== 'number') return this._itemsPerPage;
-
-    this._itemsPerPage = +itm;
+PullList.prototype.itemsPerPage = function(num) {
+    this._itemsPerPage = num ? +num : 10;
 
     return this;
 }
 
 PullList.prototype.startIndex = function(idx) {
-    if ( !idx && typeof idx !== 'number' ) return this._startIndex;
-
-    this._startIndex = +idx;
+    this._startIndex = idx ? +idx : 1;
 
     return this;
 }
