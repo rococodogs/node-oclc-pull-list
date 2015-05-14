@@ -39,7 +39,7 @@ PullList.prototype.fetch = function(callback) {
 
     request.get(url, { headers: head }, function(err, resp, body) {
         if ( resp.statusCode === 500 ) {
-            callback && callback(body, null);
+            callback && callback(body, null, []);
         } else if (resp.statusCode === 401 ) {
             callback && callback(
                 {
@@ -53,9 +53,10 @@ PullList.prototype.fetch = function(callback) {
                 null
             );
         } else if ( resp.statusCode === 200 ) {
-            callback && callback(null, JSON.parse(body).entry);
+            var parsed = JSON.parse(body);
+            callback && callback(null, parsed, parsed.entry);
         } else {
-            callback && callback(null, JSON.parse(body));
+            callback && callback(null, JSON.parse(body), []);
         }
     });
 }
